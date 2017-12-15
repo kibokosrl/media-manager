@@ -277,7 +277,7 @@
             	default: {
 					addFile: {
 						status: true,
-						label: 'Carica file'
+						label: 'Carica'
 					},
 					addFolder: {
 						status: true,
@@ -293,7 +293,7 @@
 					},
 					delete: {
 						status: true,
-						label: 'Cancella'
+						label: 'Elimina'
 					},
 					rename: {
 						status: false,
