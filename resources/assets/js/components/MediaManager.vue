@@ -446,7 +446,10 @@
                         this.loading = false;
                         this.currentFile = null;
                     }
-                );
+                )
+				.catch(function(error) {
+                    this.mediaManagerNotify(error, 'danger');
+				});
             },
 
             previewFile(file){
@@ -491,7 +494,9 @@
                         this.mediaManagerNotify(error, 'danger', 5000);
                         this.loadFolder(this.currentPath);
                     }
-                );
+                ).catch(function(error) {
+                    this.mediaManagerNotify(error, 'danger');
+                });
 
             },
 
