@@ -4,3 +4,4 @@ public/css/*.map
 public/js/*.map
 tests/reports/
 composer.lock
+.idea/
