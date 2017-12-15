@@ -53,6 +53,8 @@ class MediaManager implements FileUploaderInterface, FileMoverInterface
     {
         $this->diskName = config('media-manager.disk');
         $this->access = config('media-manager.access');
+        $this->fileOverride = config('media-manager.file_override');
+        $this->folderOverride = config('media-manager.folder_override');
         $this->disk = Storage::disk($this->diskName);
         $this->mimeDetect = $mimeDetect;
     }
@@ -339,7 +341,7 @@ class MediaManager implements FileUploaderInterface, FileMoverInterface
      */
     public function moveFile($currentFile, $newFile)
     {
-        if ($this->disk->exists($newFile)) {
+        if (!$this->fileOverride &&$this->disk->exists($newFile)) {
             $this->errors[] = 'File already exists.';
 
             return false;
@@ -416,7 +418,7 @@ class MediaManager implements FileUploaderInterface, FileMoverInterface
     {
         return $files->getUploadedFiles()->reduce(function ($uploaded, UploadedFile $file) use ($path) {
             $fileName = $file->getClientOriginalName();
-            if ($this->disk->exists($path.$fileName)) {
+            if (!$this->fileOverride && $this->disk->exists($path.$fileName)) {
                 $this->errors[] = 'File '.$path.$fileName.' already exists in this folder.';
 
                 return $uploaded;

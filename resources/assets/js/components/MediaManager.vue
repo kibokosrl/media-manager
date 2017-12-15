@@ -9,40 +9,40 @@
 					<div class="btn-group offset-right">
 
 						<!-- File input wont get triggered if this is a button so use a label instead -->
-						<label class="btn btn-primary btn-icon-text btn-file" title="Select files to be uploaded - or drag files into the main window pane">
+						<label v-if="components.addFile.status" class="btn btn-primary btn-icon-text btn-file" title="Select files to be uploaded - or drag files into the main window pane">
 							<i class="icon-upload"></i>
-							<span class="hidden-xs">Upload</span>
+							<span class="hidden-xs">{{components.addFile.label}}</span>
 							<input type="file" class="hidden" @change="uploadFile($event.target.name, $event.target.files)" name="files[]"/>
 						</label>
 
-						<button class="btn btn-primary btn-icon-text" type="button" title="Add Folder" @click="showCreateFolderModal = true">
+						<button v-if="components.addFolder.status" class="btn btn-primary btn-icon-text" type="button" title="Add Folder" @click="showCreateFolderModal = true">
 							<i class="icon-folder-plus"></i>
-							<span class="hidden-xs">Add folder</span>
+							<span class="hidden-xs">{{components.addFolder.label}}</span>
 						</button>
 
 					</div>
 
-					<div class="btn-group offset-right">
+					<div v-if="components.refresh.status" class="btn-group offset-right">
 						<button class="btn btn-default btn-icon-text" type="button" @click="loadFolder(currentPath)" title="Refresh">
 							<i class="icon-loop2"></i>
-							<span class="hidden-xs">Refresh</span>
+							<span class="hidden-xs">{{components.refresh.label}}</span>
 						</button>
 					</div>
 
 					<div class="btn-group offset-right">
-						<button class="btn btn-default btn-icon-text" type="button" :disabled="!currentFile" @click="showMoveItemModal = true" title="Move">
+						<button v-if="components.move.status" class="btn btn-default btn-icon-text" type="button" :disabled="!currentFile" @click="showMoveItemModal = true" title="Move">
 							<i class="icon-arrow-right"></i>
-							<span class="hidden-xs">Move</span>
+							<span class="hidden-xs">{{components.move.label}}</span>
 						</button>
 
-						<button class="btn btn-default btn-icon-text" type="button" :disabled="!currentFile" @click="showDeleteItemModal = true" title="Delete">
+						<button v-if="components.delete.status" class="btn btn-default btn-icon-text" type="button" :disabled="!currentFile" @click="showDeleteItemModal = true" title="Delete">
 							<i class="icon-bin"></i>
-							<span class="hidden-xs">Delete</span>
+							<span class="hidden-xs">{{components.delete.label}}</span>
 						</button>
 
-						<button class="btn btn-default btn-icon-text" type="button" :disabled="!currentFile" title="Rename" @click="showRenameItemModal = true">
+						<button v-if="components.rename.status" class="btn btn-default btn-icon-text" type="button" :disabled="!currentFile" title="Rename" @click="showRenameItemModal = true">
 							<i class="icon-pencil"></i>
-							<span class="hidden-xs">Rename</span>
+							<span class="hidden-xs">{{components.rename.label}}</span>
 						</button>
 					</div>
 
@@ -271,6 +271,36 @@
              */
             show: {
                 default: false
+            },
+
+            components: {
+            	default: {
+					addFile: {
+						status: true,
+						label: 'Carica file'
+					},
+					addFolder: {
+						status: true,
+						label: 'Nuova cartella'
+					},
+					refresh: {
+						status: true,
+						label: 'Ricarica'
+					},
+					move: {
+						status: true,
+						label: 'Sposta'
+					},
+					delete: {
+						status: true,
+						label: 'Cancella'
+					},
+					rename: {
+						status: false,
+						label: 'Rinomina'
+					},
+				}
+
             }
         },
 
@@ -454,6 +484,7 @@
                         this.loadFolder(this.currentPath);
                     },
                     (response) => {
+                    	console.log(response);
                         const error = (response.data.error) ? response.data.error : response.statusText;
                         // when uploading we might have some files uploaded and others fail
                         if (response.data.notices) this.mediaManagerNotify(response.data.notices);
