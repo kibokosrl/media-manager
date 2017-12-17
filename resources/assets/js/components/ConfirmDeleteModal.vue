@@ -106,9 +106,9 @@
                             this.mediaManagerNotify(response.data.success);
                             this.close();
                         },
-                        (response) => {
-                            const error = (response.data.error) ? response.data.error : response.statusText;
-                            this.mediaManagerNotify(error, 'danger');
+                        (error) => {
+                            const errorMessage = (error.response.data.error) ? error.response.data.error : error.response.statusText;
+                            this.mediaManagerNotify(errorMessage, 'danger');
                             this.close();
                         }
                 );

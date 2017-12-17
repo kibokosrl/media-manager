@@ -95,9 +95,9 @@
                             this.newFolderLocation = this.currentPath;
                             this.allDirectories = response.data;
                         },
-                        (response) => {
-                            const error = (response.data.error) ? response.data.error : response.statusText;
-                            this.mediaManagerNotify(error, 'danger');
+                        (error) => {
+                            const errorMessage = (error.response.data.error) ? error.response.data.error : error.response.statusText;
+                            this.mediaManagerNotify(errorMessage, 'danger');
 
                         }
                 );
@@ -119,9 +119,9 @@
                             window.eventHub.$emit('media-manager-notification', response.data.success);
                             this.close();
                         },
-                        (response) => {
-                            window.eventHub.$emit('reload-folder', response.data.success);
-                            window.eventHub.$emit('media-manager-notification', (response.data.error) ? response.data.error : response.statusText, 'danger');
+                        (error) => {
+                            window.eventHub.$emit('reload-folder', error.response.data.success);
+                            window.eventHub.$emit('media-manager-notification', (error.response.data.error) ? error.response.data.error : error.response.statusText, 'danger');
                             this.loading = false;
                         }
                 );

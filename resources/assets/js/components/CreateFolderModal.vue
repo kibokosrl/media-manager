@@ -95,8 +95,8 @@
                             window.eventHub.$emit('media-manager-reload-folder');
                             this.close();
                         },
-                         (response) => {
-                             this.errors = (response.data.error) ? response.data.error : response.statusText;
+                         (error) => {
+                            this.errors = (error.data.error) ? error.data.error : error.statusText;
                             this.loading =false;
                         }
                 );

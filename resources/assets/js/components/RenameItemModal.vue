@@ -104,8 +104,8 @@
                                 this.mediaManagerNotify(response.data.success);
                                 this.close();
                             },
-                             (response) => {
-                                this.errors = (response.data.error) ? response.data.error : response.statusText;
+                             (error) => {
+                                this.errors = (error.response.data.error) ? error.response.data.error : error.response.statusText;
                                 this.loading = false;
                             }
                     );
