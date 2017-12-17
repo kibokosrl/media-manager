@@ -438,18 +438,15 @@
                         this.folders = response.data.subFolders;
                         this.itemsCount = response.data.itemsCount;
                     },
-                    (response) => {
-                        if (response.data.error) {
-                            this.mediaManagerNotify(response.data.error, 'danger');
+                    (error) => {
+                        if (error.response.data.error) {
+                            this.mediaManagerNotify(error.response.data.error, 'danger');
                         }
 
                         this.loading = false;
                         this.currentFile = null;
                     }
-                )
-				.catch(function(error) {
-                    this.mediaManagerNotify(error, 'danger');
-				});
+                );
             },
 
             previewFile(file){
@@ -486,18 +483,15 @@
                         this.mediaManagerNotify(response.data.success);
                         this.loadFolder(this.currentPath);
                     },
-                    (response) => {
-                    	console.log(response);
-                        const error = (response.data.error) ? response.data.error : response.statusText;
+                    (error) => {
+                    	console.log(error);
+                        const errorMessage = (error.response.data.error) ? error.response.data.error : error.response.statusText;
                         // when uploading we might have some files uploaded and others fail
-                        if (response.data.notices) this.mediaManagerNotify(response.data.notices);
-                        this.mediaManagerNotify(error, 'danger', 5000);
+                        if (error.response.data.notices) this.mediaManagerNotify(error.response.data.notices);
+                        this.mediaManagerNotify(errorMessage, 'danger', 5000);
                         this.loadFolder(this.currentPath);
                     }
-                ).catch(function(error) {
-                    this.mediaManagerNotify(error, 'danger');
-                });
-
+                );
             },
 
             selectFile(){
