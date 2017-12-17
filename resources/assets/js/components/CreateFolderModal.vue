@@ -96,7 +96,7 @@
                             this.close();
                         },
                          (error) => {
-                            this.errors = (error.data.error) ? error.data.error : error.statusText;
+                            this.errors = (error.response.data.error) ? error.response.data.error : error.response.statusText;
                             this.loading =false;
                         }
                 );
