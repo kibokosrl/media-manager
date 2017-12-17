@@ -484,7 +484,6 @@
                         this.loadFolder(this.currentPath);
                     },
                     (error) => {
-                    	console.log(error);
                         const errorMessage = (error.response.data.error) ? error.response.data.error : error.response.statusText;
                         // when uploading we might have some files uploaded and others fail
                         if (error.response.data.notices) this.mediaManagerNotify(error.response.data.notices);
